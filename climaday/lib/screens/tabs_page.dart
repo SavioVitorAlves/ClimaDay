@@ -16,8 +16,8 @@ class _TabsScreensState extends State<TabsScreens> {
   void initState() {
     super.initState();
     _screens = [
-      {'title': '', 'screen': const ClimaDayPage()},
-      {'title': 'Relatorio de Previsao', 'screen': const RelatorioPage()}
+      {'screen': const ClimaDayPage()},
+      {'screen': const RelatorioPage()}
     ];
   }
 
@@ -30,28 +30,25 @@ class _TabsScreensState extends State<TabsScreens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(_screens[_selectedScreensIndex]['title'] as String),
-      ),
       body: _screens[_selectedScreensIndex]['screen'] as Widget,
       bottomNavigationBar: BottomNavigationBar(
           onTap: _selectdScreens,
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Colors.black,
           unselectedItemColor: Colors.white,
-          selectedItemColor: Theme.of(context).colorScheme.secondary,
+          selectedItemColor: Colors.blue,
           currentIndex: _selectedScreensIndex,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_filled,
               ),
+              label: 'Início',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.insert_chart_sharp,
               ),
+              label: 'Início',
             )
           ]),
     );

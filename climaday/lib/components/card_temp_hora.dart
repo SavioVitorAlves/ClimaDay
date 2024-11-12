@@ -48,14 +48,14 @@ class _CardTempHoraState extends State<CardTempHora> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150,
+      height: 100,
       child: ListView.builder(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         itemCount: widget.forecastList.length, // Lista com dados do carrossel
         itemBuilder: (context, index) {
           return Card(
-            color: Colors.blue,
+            color: const Color(0x40ffffff),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -64,15 +64,26 @@ class _CardTempHoraState extends State<CardTempHora> {
                     widget.forecastList[index]["icon"]!,
                     style: const TextStyle(fontSize: 40),
                   ), // Ícone do clima
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(widget.forecastList[index]["temp"]!), // Temperatura
+                      Text(
+                        widget.forecastList[index]["time"]!,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 13),
+                      ), // Temperatura
                       const SizedBox(
                         height: 10,
                       ),
                       Text(
-                        widget.forecastList[index]["time"]!,
-                        style: const TextStyle(fontSize: 13),
+                        widget.forecastList[index]["temp"]!,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
                       ), // Hora
                     ],
                   )

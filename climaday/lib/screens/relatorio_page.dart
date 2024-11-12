@@ -20,7 +20,21 @@ class _RelatorioPageState extends State<RelatorioPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Relatorio de Previsão',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.black,
+      ),
       body: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            colors: [Color.fromARGB(255, 59, 59, 59), Color(0xFF000000)],
+          ),
+        ),
         child: Center(
           child: Column(
             children: [
@@ -30,6 +44,7 @@ class _RelatorioPageState extends State<RelatorioPage> {
                     'Hoje',
                     style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
+                  Spacer(),
                   Text(
                     '11, November de 2024',
                     style: TextStyle(color: Colors.white, fontSize: 12),
