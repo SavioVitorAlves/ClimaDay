@@ -91,81 +91,120 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                           color: Colors.amber,
                           size: 390,
                         ),
-                        const Padding(
+                        SizedBox(height: 30,),
+                        Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Column(
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Temp',
                                     style: TextStyle(
                                       color: Color(0x80ffffff),
-                                      fontSize: 10,
+                                      fontSize: 12,
                                     ),
                                   ),
                                   Text(
-                                    '32°',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                                    "${currencies?["temp"].toString() ?? "00"}°",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
                               Column(
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Vento',
                                     style: TextStyle(
                                       color: Color(0x80ffffff),
-                                      fontSize: 10,
+                                      fontSize: 12,
                                     ),
                                   ),
                                   Text(
-                                    '10km/h',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                                    currencies?["wind_speedy"].toString() ?? "00",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
                               Column(
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Humidade',
                                     style: TextStyle(
                                       color: Color(0x80ffffff),
-                                      fontSize: 10,
+                                      fontSize: 12,
                                     ),
                                   ),
                                   Text(
-                                    '75%',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                                    "${currencies?["humidity"].toString() ?? "00"}%",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                                   )
                                 ],
                               )
                             ],
                           ),
                         ),
+                        SizedBox(height: 30,),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              const Text(
-                                'Hoje',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                ),
+                              Column(
+                                children: [
+                                  const Text(
+                                    'Chuva',
+                                    style: TextStyle(
+                                      color: Color(0x80ffffff),
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${currencies?["rain"].toString() ?? "00"}mm",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                  )
+                                ],
                               ),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: const Text('Ver relatorio total'))
+                              Column(
+                                children: [
+                                  const Text(
+                                    'Descrição',
+                                    style: TextStyle(
+                                      color: Color(0x80ffffff),
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    currencies?["description"].toString() ?? "00",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  const Text(
+                                    'nebulosidade',
+                                    style: TextStyle(
+                                      color: Color(0x80ffffff),
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${currencies?["cloudiness"].toString() ?? "00"}%",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
                             ],
                           ),
                         ),
-                        CardTempHora(forecastList: forecastList),
                       ],
                     ),
                   ),

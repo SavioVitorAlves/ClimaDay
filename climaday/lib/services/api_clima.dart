@@ -4,9 +4,12 @@ import 'package:http/http.dart' as http;
 
 class ApiClima {
   Future<Map> loadWeather() async {
+    ApiRoute apiRoute = ApiRoute();
+    String url = await apiRoute.getWeatherUrlWithLocation();
+    print(url);
     try {
       print("Tentando conectar...");
-      final response = await http.get(Uri.parse(ApiRoute.TEMP_DAY));
+      final response = await http.get(Uri.parse(url));
       print("Status code: ${response.statusCode}");
       if (response.statusCode == 200) {
         return json.decode(response.body);

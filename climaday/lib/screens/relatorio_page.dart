@@ -1,4 +1,5 @@
 import 'package:climaday/components/card_temp_hora.dart';
+import 'package:climaday/services/api_clima.dart';
 import 'package:flutter/material.dart';
 
 class RelatorioPage extends StatefulWidget {
@@ -9,68 +10,110 @@ class RelatorioPage extends StatefulWidget {
 }
 
 class _RelatorioPageState extends State<RelatorioPage> {
-  final List<Map<String, String>> forecastList = [
-    {"icon": "🌞", "temp": "32°C", "time": "14:00"},
-    {"icon": "🌧️", "temp": "30°C", "time": "15:00"},
-    {"icon": "⛈️", "temp": "28°C", "time": "16:00"},
-    {"icon": "🌤️", "temp": "29°C", "time": "17:00"},
-    {"icon": "🌙", "temp": "26°C", "time": "18:00"},
-  ];
-
+  Map? currencies;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Relatorio de Previsão',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            colors: [Color.fromARGB(255, 59, 59, 59), Color(0xFF000000)],
-          ),
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              const Row(
-                children: [
-                  Text(
-                    'Hoje',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+    return FutureBuilder<Map>(
+      future: ApiClima().loadWeather(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return const Center(
+              child: Text(
+                "Carregando dados....",
+                style: TextStyle(color: Colors.amber, fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            );
+          case ConnectionState.active:
+            return const Center(child: CircularProgressIndicator());
+          case ConnectionState.done:
+            if (snapshot.hasError) {
+              print(snapshot.data);
+              return const Center(
+                child: Text(
+                  "Erro Ao carregar os dados",
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontSize: 25,
                   ),
-                  Spacer(),
-                  Text(
-                    '11, November de 2024',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            } else {
+              // Dados carregados com sucesso, exiba os dados aqui
+              //return Text(snapshot.data!['resultado'].toString());
+              currencies = snapshot.data!["results"];
+              print(snapshot.data);
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text(
+                    'Relatorio de Previsão',
+                    style: TextStyle(color: Colors.white),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              CardTempHora(forecastList: forecastList),
-              const SizedBox(
-                height: 30,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'Proximas Previsoes',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+                  centerTitle: true,
+                  backgroundColor: Colors.black,
+                ),
+                body: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    gradient: RadialGradient(
+                      colors: [Color.fromARGB(255, 59, 59, 59), Color(0xFF000000)],
+                    ),
+                  ),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        const Row(
+                          children: [
+                            Text(
+                              'Hoje',
+                              style: TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                            Spacer(),
+                            Text(
+                              '11, November de 2024',
+                              style: TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Proximas Previsoes',
+                              style: TextStyle(color: Colors.white, fontSize: 15),
+                            )
+                          ],
+                        ),
+                        ListView.builder(
+                          itemCount: 6,
+                          itemBuilder: (ctx, index){
+                            return SizedBox(
+                              height: 130,
+                              child: Card(
+                                color: const Color(0x40ffffff),
+                                child: Row(
+                                  children: [
+                                    Text(currencies?["forecast"](index))
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }
+      }}
     );
   }
 }
