@@ -1,6 +1,6 @@
-import 'package:climaday/components/card_temp_hora.dart';
 import 'package:climaday/services/api_clima.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ClimaDayPage extends StatefulWidget {
   const ClimaDayPage({super.key});
@@ -10,15 +10,17 @@ class ClimaDayPage extends StatefulWidget {
 }
 
 class _ClimaDayPageState extends State<ClimaDayPage> {
-  // Lista de dados fictícios para teste
-  final List<Map<String, String>> forecastList = [
-    {"icon": "🌞", "temp": "32°C", "time": "14:00"},
-    {"icon": "🌧️", "temp": "30°C", "time": "15:00"},
-    {"icon": "⛈️", "temp": "28°C", "time": "16:00"},
-    {"icon": "🌤️", "temp": "29°C", "time": "17:00"},
-    {"icon": "🌙", "temp": "26°C", "time": "18:00"},
-  ];
   Map? currencies;
+  final Map<String, String> _fazesDaLua = {
+    "new": "Lua nova",
+    "waxing_crescent": "Lua crescente",
+    "first_quarter": "Quarto crescente",
+    "waxing_gibbous": "Gibosa crescente",
+    "full": "Lua cheia",
+    "waning_gibbous": "Gibosa minguante",
+    "last_quarter": "Quarto minguante",
+    "waning_crescent": "Lua minguante",
+  };
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map>(
@@ -58,7 +60,7 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                 appBar: AppBar(
                   title: Text(
                     currencies?["city"] ?? "Cidade Desconhecida",
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   centerTitle: true,
                   backgroundColor: Colors.black,
@@ -84,21 +86,37 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 35,
                         ),
                         const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                          size: 390,
+                          Icons.cloud,
+                          color: Colors.blue,
+                          size: 320,
                         ),
-                        SizedBox(height: 30,),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          currencies?["description"],
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    Icons.thermostat,
+                                    size: 21,
+                                    color: Colors.blue,
+                                  ),
                                   const Text(
                                     'Temp',
                                     style: TextStyle(
@@ -109,12 +127,20 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                                   Text(
                                     "${currencies?["temp"].toString() ?? "00"}°",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    FontAwesomeIcons.wind,
+                                    size: 21,
+                                    color: Colors.blue,
+                                  ),
                                   const Text(
                                     'Vento',
                                     style: TextStyle(
@@ -123,14 +149,23 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                                     ),
                                   ),
                                   Text(
-                                    currencies?["wind_speedy"].toString() ?? "00",
+                                    currencies?["wind_speedy"].toString() ??
+                                        "00",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    Icons.water_drop_outlined,
+                                    size: 21,
+                                    color: Colors.blue,
+                                  ),
                                   const Text(
                                     'Humidade',
                                     style: TextStyle(
@@ -141,21 +176,31 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                                   Text(
                                     "${currencies?["humidity"].toString() ?? "00"}%",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               )
                             ],
                           ),
                         ),
-                        SizedBox(height: 30,),
+                        const SizedBox(
+                          height: 30,
+                        ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    FontAwesomeIcons.cloudRain,
+                                    size: 21,
+                                    color: Colors.blue,
+                                  ),
                                   const Text(
                                     'Chuva',
                                     style: TextStyle(
@@ -166,28 +211,46 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                                   Text(
                                     "${currencies?["rain"].toString() ?? "00"}mm",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    FontAwesomeIcons.moon,
+                                    size: 21,
+                                    color: Colors.blue,
+                                  ),
                                   const Text(
-                                    'Descrição',
+                                    'Fase da Lua',
                                     style: TextStyle(
                                       color: Color(0x80ffffff),
                                       fontSize: 12,
                                     ),
                                   ),
                                   Text(
-                                    currencies?["description"].toString() ?? "00",
+                                    _fazesDaLua[currencies?["moon_phase"]
+                                            .toString()] ??
+                                        "erro",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    FontAwesomeIcons.cloudMeatball,
+                                    size: 21,
+                                    color: Colors.blue,
+                                  ),
                                   const Text(
                                     'nebulosidade',
                                     style: TextStyle(
@@ -198,13 +261,18 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                                   Text(
                                     "${currencies?["cloudiness"].toString() ?? "00"}%",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               )
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 20,
+                        )
                       ],
                     ),
                   ),
@@ -216,117 +284,3 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
     );
   }
 }
-/*
-
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Nome da cidade',
-            style: TextStyle(color: Colors.white),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.black,
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              colors: [Color.fromARGB(255, 59, 59, 59), Color(0xFF000000)],
-            ),
-          ),
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  '11, November de 2024',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 390,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            'Temp',
-                            style: TextStyle(
-                              color: Color(0x80ffffff),
-                              fontSize: 10,
-                            ),
-                          ),
-                          Text(
-                            '32°',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            'Vento',
-                            style: TextStyle(
-                              color: Color(0x80ffffff),
-                              fontSize: 10,
-                            ),
-                          ),
-                          Text(
-                            '10km/h',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            'Humidade',
-                            style: TextStyle(
-                              color: Color(0x80ffffff),
-                              fontSize: 10,
-                            ),
-                          ),
-                          Text(
-                            '75%',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Hoje',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () {},
-                          child: const Text('Ver relatorio total'))
-                    ],
-                  ),
-                ),
-                CardTempHora(forecastList: forecastList),
-              ],
-            ),
-          ),
-        ),
-      ),
-*/

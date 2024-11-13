@@ -1,4 +1,3 @@
-import 'package:climaday/screens/clima_day_page.dart';
 import 'package:climaday/screens/tabs_page.dart';
 import 'package:flutter/material.dart';
 
