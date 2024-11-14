@@ -1,5 +1,7 @@
+import 'package:climaday/components/img_temp.dart';
 import 'package:climaday/services/api_clima.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class RelatorioPage extends StatefulWidget {
@@ -31,28 +33,48 @@ class _RelatorioPageState extends State<RelatorioPage> {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return const Center(
-                child: Text(
-                  "Carregando dados....",
-                  style: TextStyle(color: Colors.amber, fontSize: 25),
-                  textAlign: TextAlign.center,
-                ),
-              );
+              return Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    gradient: RadialGradient(
+                      colors: [
+                        Color.fromARGB(255, 59, 59, 59),
+                        Color(0xFF000000)
+                      ],
+                    ),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Carregando dados....",
+                      style: TextStyle(color: Colors.blue, fontSize: 25),
+                      textAlign: TextAlign.center,
+                    ),
+                  ));
             case ConnectionState.active:
               return const Center(child: CircularProgressIndicator());
             case ConnectionState.done:
               if (snapshot.hasError) {
                 print(snapshot.data);
-                return const Center(
-                  child: Text(
-                    "Erro Ao carregar os dados",
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 25,
+                return Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      gradient: RadialGradient(
+                        colors: [
+                          Color.fromARGB(255, 59, 59, 59),
+                          Color(0xFF000000)
+                        ],
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                );
+                    child: const Center(
+                      child: Text(
+                        "Erro Ao carregar os dados",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 25,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ));
               } else {
                 // Dados carregados com sucesso, exiba os dados aqui
                 //return Text(snapshot.data!['resultado'].toString());
@@ -114,7 +136,7 @@ class _RelatorioPageState extends State<RelatorioPage> {
                           ),
                           Expanded(
                             child: ListView.builder(
-                                itemCount: 6,
+                                itemCount: 7,
                                 itemBuilder: (ctx, index) {
                                   print(" semana: ${_dia[index]}");
                                   return SizedBox(
@@ -129,28 +151,40 @@ class _RelatorioPageState extends State<RelatorioPage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
+                                              const Icon(
+                                                Icons.date_range_rounded,
+                                                size: 21,
+                                                color: Colors.blue,
+                                              ),
                                               Text(
                                                 _dia[index]['weekday'],
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                                style: const TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Text(
                                                 formatDate(_dia[index]["date"]),
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                                style: const TextStyle(
+                                                    color: Color(0x80ffffff),
+                                                    fontSize: 12),
                                               )
                                             ],
                                           ),
-                                          Text(
-                                            "${_dia[index]['temp']}°C",
-                                            style: const TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.white),
+                                          ImgTemp(
+                                            img: _dia[index]["condition"],
+                                            altura: 120,
                                           ),
                                           Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
+                                              const Icon(
+                                                FontAwesomeIcons.cloudRain,
+                                                size: 21,
+                                                color: Colors.blue,
+                                              ),
                                               const Text(
                                                 'Chuva',
                                                 style: TextStyle(
@@ -161,7 +195,10 @@ class _RelatorioPageState extends State<RelatorioPage> {
                                               Text(
                                                 "${_dia[index]['rain']}mm",
                                                 style: const TextStyle(
-                                                    color: Colors.white),
+                                                    color: Colors.white,
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               )
                                             ],
                                           )

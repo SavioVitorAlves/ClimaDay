@@ -1,3 +1,4 @@
+import 'package:climaday/components/img_temp.dart';
 import 'package:climaday/services/api_clima.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,28 +30,48 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return const Center(
-              child: Text(
-                "Carregando dados....",
-                style: TextStyle(color: Colors.amber, fontSize: 25),
-                textAlign: TextAlign.center,
-              ),
-            );
+            return Container(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  gradient: RadialGradient(
+                    colors: [
+                      Color.fromARGB(255, 59, 59, 59),
+                      Color(0xFF000000)
+                    ],
+                  ),
+                ),
+                child: const Center(
+                  child: Text(
+                    "Carregando dados....",
+                    style: TextStyle(color: Colors.blue, fontSize: 25),
+                    textAlign: TextAlign.center,
+                  ),
+                ));
           case ConnectionState.active:
             return const Center(child: CircularProgressIndicator());
           case ConnectionState.done:
             if (snapshot.hasError) {
               print(snapshot.data);
-              return const Center(
-                child: Text(
-                  "Erro Ao carregar os dados",
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 25,
+              return Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    gradient: RadialGradient(
+                      colors: [
+                        Color.fromARGB(255, 59, 59, 59),
+                        Color(0xFF000000)
+                      ],
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              );
+                  child: const Center(
+                    child: Text(
+                      "Erro Ao carregar os dados",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 25,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ));
             } else {
               // Dados carregados com sucesso, exiba os dados aqui
               //return Text(snapshot.data!['resultado'].toString());
@@ -79,19 +100,18 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                     child: Column(
                       children: [
                         const SizedBox(
-                          height: 20,
+                          height: 5,
                         ),
                         const Text(
                           '11, November de 2024',
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         const SizedBox(
-                          height: 35,
+                          height: 15,
                         ),
-                        const Icon(
-                          Icons.cloud,
-                          color: Colors.blue,
-                          size: 320,
+                        ImgTemp(
+                          img: currencies?["condition_slug"],
+                          altura: 380,
                         ),
                         const SizedBox(
                           height: 15,
@@ -212,7 +232,7 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                                     "${currencies?["rain"].toString() ?? "00"}mm",
                                     style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 15,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   )
                                 ],
