@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:climaday/utils/api_route.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiClima {
@@ -19,6 +20,14 @@ class ApiClima {
     } catch (e) {
       print("Erro de rede: $e");
       throw Exception("Erro de rede: $e");
+    }
+  }
+
+  Future<String> imgWeather(String img) async {
+    try {
+      return "${ApiRoute.TEMP_IMG}$img.svg";
+    } catch (e) {
+      throw Future.error('Erro ao obter a imagem: $e');
     }
   }
 }
