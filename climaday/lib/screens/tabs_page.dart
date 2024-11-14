@@ -46,9 +46,15 @@ class _TabsScreensState extends State<TabsScreens> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
+                Icons.search,
+              ),
+              label: 'Relatorio',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
                 Icons.insert_chart_sharp,
               ),
-              label: 'Início',
+              label: 'Relatorio',
             )
           ]),
     );
