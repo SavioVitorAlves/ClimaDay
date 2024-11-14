@@ -31,14 +31,13 @@ class ApiRoute {
     // Retorna a localização atual
     return await Geolocator.getCurrentPosition();
   }
-  
+
   // Método para gerar a URL de clima com coordenadas dinâmicas
   Future<String> getWeatherUrlWithLocation() async {
     try {
       Position position = await _getLocation();
       double latitude = position.latitude;
       double longitude = position.longitude;
-      print(latitude);
 
       // Cria a URL com a latitude e longitude obtidas
       return "https://api.hgbrasil.com/weather?key=$_apiKey&lat=$latitude&lon=$longitude&user_ip=remote";
@@ -48,5 +47,7 @@ class ApiRoute {
   }
 
   static const TEMP_DAY = "https://api.hgbrasil.com/weather?key=6417ae14";
+  static const TEMP_IMG =
+      "https://assets.hgbrasil.com/weather/icons/conditions/";
   //static const TEMP_DAY_LOCAL = "https://api.hgbrasil.com/weather?key=6417ae14&lat=-23.682&lon=-46.875&user_ip=remote";
 }
