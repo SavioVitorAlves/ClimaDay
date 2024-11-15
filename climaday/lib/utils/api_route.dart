@@ -49,5 +49,7 @@ class ApiRoute {
   static const TEMP_DAY = "https://api.hgbrasil.com/weather?key=6417ae14";
   static const TEMP_IMG =
       "https://assets.hgbrasil.com/weather/icons/conditions/";
+  static const TEMP_CITY =
+      "https://api.hgbrasil.com/weather?key=6417ae14&city_name=";
   //static const TEMP_DAY_LOCAL = "https://api.hgbrasil.com/weather?key=6417ae14&lat=-23.682&lon=-46.875&user_ip=remote";
 }
