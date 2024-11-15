@@ -1,3 +1,5 @@
+import 'package:climaday/services/api_clima.dart';
+import 'package:climaday/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class SearchCityPage extends StatefulWidget {
@@ -10,6 +12,7 @@ class SearchCityPage extends StatefulWidget {
 class _SearchCityPageState extends State<SearchCityPage> {
   String? selectedItem;
   final _cityController = TextEditingController();
+  Map? meteorological;
   final List<String> _estados = [
     "AC", // Acre
     "AL", // Alagoas
@@ -39,13 +42,36 @@ class _SearchCityPageState extends State<SearchCityPage> {
     "SE", // Sergipe
     "TO" // Tocantins
   ];
+
   String? cityPlusCoutry;
+  bool verifyController = false;
+  String? textController;
+  String? textUf;
 
   void cityCoutry() {
-    String city = capitalizeEachWord(_cityController.text);
-    setState(() {
-      cityPlusCoutry = "$city,$selectedItem";
-    });
+    if (_cityController.text.isEmpty && selectedItem!.isEmpty) {
+      setState(() {
+        verifyController = true;
+        textController = "*O campo de nome da cidade nao esta preenchido.*";
+        textUf = "*O estado nao foi selecionado.*";
+      });
+    } else if (_cityController.text.isEmpty) {
+      setState(() {
+        verifyController = true;
+        textController = "*O campo de nome da cidade nao esta preenchido.*";
+      });
+    } else if (selectedItem!.isEmpty) {
+      setState(() {
+        verifyController = true;
+        textUf = "*O estado nao foi selecionado.*";
+      });
+    } else {
+      verifyController = false;
+      String city = capitalizeEachWord(_cityController.text);
+      setState(() {
+        cityPlusCoutry = "$city,$selectedItem";
+      });
+    }
   }
 
   String capitalizeEachWord(String input) {
@@ -128,7 +154,7 @@ class _SearchCityPageState extends State<SearchCityPage> {
               height: 15,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => cityCoutry(),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue, // Cor de fundo do botão
                 foregroundColor: Colors.white, // Cor do texto
@@ -151,18 +177,71 @@ class _SearchCityPageState extends State<SearchCityPage> {
                 ),
               ),
             ),
+            if (verifyController)
+              Column(
+                children: [
+                  if (textController!.isNotEmpty)
+                    Text(
+                      textController!,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontSize: 11),
+                    ),
+                  if (textUf!.isNotEmpty)
+                    Text(
+                      textUf!,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontSize: 11),
+                    ),
+                ],
+              ),
             if (cityPlusCoutry != null)
-              Container(
-                height: 16,
-                width: double.infinity,
-                color: const Color(0x40ffffff),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                child: Text(
-                  cityPlusCoutry!,
-                  style: const TextStyle(color: Colors.blue),
-                ),
-              )
+              FutureBuilder<Map>(
+                  future: ApiClima().cityWeather(cityPlusCoutry!),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return const Text(
+                          "Carregando dados....",
+                          style: TextStyle(color: Colors.blue, fontSize: 25),
+                          textAlign: TextAlign.center,
+                        );
+                      case ConnectionState.active:
+                        return const Center(child: CircularProgressIndicator());
+                      case ConnectionState.done:
+                        if (snapshot.hasError) {
+                          print(snapshot.data);
+                          return const Text(
+                            "Erro Ao carregar os dados, no nome da cidade nao use: simbolos e acentos. Deve conter os espaços!",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 25,
+                            ),
+                            textAlign: TextAlign.center,
+                          );
+                        } else {
+                          meteorological = snapshot.data!["results"];
+                          return GestureDetector(
+                            child: Container(
+                              height: 16,
+                              width: double.infinity,
+                              color: const Color(0x40ffffff),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Text(
+                                cityPlusCoutry!,
+                                style: const TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                            onTap: () => Navigator.of(context).pushNamed(
+                                AppRoutes.CITY_SEARCH,
+                                arguments: meteorological),
+                          );
+                        }
+                    }
+                  }),
           ],
         ),
       ),
