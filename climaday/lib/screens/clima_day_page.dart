@@ -1,7 +1,7 @@
 import 'package:climaday/components/img_temp.dart';
+import 'package:climaday/components/meteorogical_weather.dart';
 import 'package:climaday/services/api_clima.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ClimaDayPage extends StatefulWidget {
   const ClimaDayPage({super.key});
@@ -11,17 +11,7 @@ class ClimaDayPage extends StatefulWidget {
 }
 
 class _ClimaDayPageState extends State<ClimaDayPage> {
-  Map? currencies;
-  final Map<String, String> _fazesDaLua = {
-    "new": "Lua nova",
-    "waxing_crescent": "Lua crescente",
-    "first_quarter": "Quarto crescente",
-    "waxing_gibbous": "Gibosa crescente",
-    "full": "Lua cheia",
-    "waning_gibbous": "Gibosa minguante",
-    "last_quarter": "Quarto minguante",
-    "waning_crescent": "Lua minguante",
-  };
+  Map? meteorological;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map>(
@@ -75,12 +65,12 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
             } else {
               // Dados carregados com sucesso, exiba os dados aqui
               //return Text(snapshot.data!['resultado'].toString());
-              currencies = snapshot.data!["results"];
+              meteorological = snapshot.data!["results"];
               print(snapshot.data);
               return Scaffold(
                 appBar: AppBar(
                   title: Text(
-                    currencies?["city"] ?? "Cidade Desconhecida",
+                    meteorological?["city"] ?? "Cidade Desconhecida",
                     style: const TextStyle(color: Colors.white),
                   ),
                   centerTitle: true,
@@ -110,186 +100,21 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                           height: 15,
                         ),
                         ImgTemp(
-                          img: currencies?["condition_slug"],
+                          img: meteorological?["condition_slug"],
                           altura: 380,
                         ),
                         const SizedBox(
                           height: 15,
                         ),
                         Text(
-                          currencies?["description"],
+                          meteorological?["description"],
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                         const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.thermostat,
-                                    size: 21,
-                                    color: Colors.blue,
-                                  ),
-                                  const Text(
-                                    'Temp',
-                                    style: TextStyle(
-                                      color: Color(0x80ffffff),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    "${currencies?["temp"].toString() ?? "00"}°",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    FontAwesomeIcons.wind,
-                                    size: 21,
-                                    color: Colors.blue,
-                                  ),
-                                  const Text(
-                                    'Vento',
-                                    style: TextStyle(
-                                      color: Color(0x80ffffff),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    currencies?["wind_speedy"].toString() ??
-                                        "00",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.water_drop_outlined,
-                                    size: 21,
-                                    color: Colors.blue,
-                                  ),
-                                  const Text(
-                                    'Humidade',
-                                    style: TextStyle(
-                                      color: Color(0x80ffffff),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    "${currencies?["humidity"].toString() ?? "00"}%",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    FontAwesomeIcons.cloudRain,
-                                    size: 21,
-                                    color: Colors.blue,
-                                  ),
-                                  const Text(
-                                    'Chuva',
-                                    style: TextStyle(
-                                      color: Color(0x80ffffff),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    "${currencies?["rain"].toString() ?? "00"}mm",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    FontAwesomeIcons.moon,
-                                    size: 21,
-                                    color: Colors.blue,
-                                  ),
-                                  const Text(
-                                    'Fase da Lua',
-                                    style: TextStyle(
-                                      color: Color(0x80ffffff),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    _fazesDaLua[currencies?["moon_phase"]
-                                            .toString()] ??
-                                        "erro",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    FontAwesomeIcons.cloudMeatball,
-                                    size: 21,
-                                    color: Colors.blue,
-                                  ),
-                                  const Text(
-                                    'nebulosidade',
-                                    style: TextStyle(
-                                      color: Color(0x80ffffff),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    "${currencies?["cloudiness"].toString() ?? "00"}%",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
+                        MeteorogicalWeather(meteorological: meteorological),
                         const SizedBox(
                           height: 20,
                         )

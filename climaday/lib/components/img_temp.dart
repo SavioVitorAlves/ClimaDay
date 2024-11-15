@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ImgTemp extends StatelessWidget {
-  ImgTemp({required this.altura, required this.img, super.key});
-  String img;
-  double altura;
+  const ImgTemp({required this.altura, required this.img, super.key});
+  final String img;
+  final double altura;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
