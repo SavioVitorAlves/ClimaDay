@@ -1,4 +1,8 @@
+import 'package:climaday/screens/city_search_page.dart';
+import 'package:climaday/screens/clima_day_page.dart';
+import 'package:climaday/screens/relatorio_page.dart';
 import 'package:climaday/screens/tabs_page.dart';
+import 'package:climaday/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +20,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TabsScreens(),
+      //home: const TabsScreens(),
+      routes: {
+        AppRoutes.HOME: (ctx) => const TabsScreens(),
+        AppRoutes.RELATORIO_PAGE: (ctx) => const RelatorioPage(),
+        AppRoutes.CITY_SEARCH: (ctx) => const CitySearchPage(),
+      },
     );
   }
 }
