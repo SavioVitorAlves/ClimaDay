@@ -1,5 +1,7 @@
+import 'package:climaday/screens/city_search_page.dart';
 import 'package:climaday/screens/clima_day_page.dart';
 import 'package:climaday/screens/relatorio_page.dart';
+import 'package:climaday/screens/search_city_page.dart';
 import 'package:flutter/material.dart';
 
 class TabsScreens extends StatefulWidget {
@@ -17,6 +19,7 @@ class _TabsScreensState extends State<TabsScreens> {
     super.initState();
     _screens = [
       {'screen': const ClimaDayPage()},
+      {'screen': const SearchCityPage()},
       {'screen': const RelatorioPage()}
     ];
   }
@@ -48,7 +51,7 @@ class _TabsScreensState extends State<TabsScreens> {
               icon: Icon(
                 Icons.search,
               ),
-              label: 'Relatorio',
+              label: 'Pesquisa',
             ),
             BottomNavigationBarItem(
               icon: Icon(

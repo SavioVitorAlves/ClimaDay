@@ -34,11 +34,25 @@ class ApiClima {
   Future<Map> cityWeather(String city) async {
     try {
       print("Tentando conectar...");
+      print("City: $city");
       final response = await http.get(Uri.parse("${ApiRoute.TEMP_CITY}$city"));
+
       print("Status code: ${response.statusCode}");
+      print("Response: ${response.body}");
+
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        final data = json.decode(response.body);
+
+        // Verifique se a cidade retornada é a padrão
+        final results = data['results'];
+        if (results['city'] == "São Paulo, SP" ||
+            results['city'] == "Miami, Florida") {
+          throw Exception("Cidade inválida: retornou dados da cidade padrão");
+        }
+
+        return data;
       } else {
+        // Status HTTP fora da faixa 200
         throw Exception("Erro ao carregar dados: ${response.statusCode}");
       }
     } catch (e) {

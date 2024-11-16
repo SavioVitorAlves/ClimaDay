@@ -45,22 +45,29 @@ class _SearchCityPageState extends State<SearchCityPage> {
 
   String? cityPlusCoutry;
   bool verifyController = false;
-  String? textController;
-  String? textUf;
+  String? textController = "";
+  String? textUf = "";
 
   void cityCoutry() {
-    if (_cityController.text.isEmpty && selectedItem!.isEmpty) {
+    setState(() {
+      // Reinicia as mensagens de erro antes da validação
+      textController = "";
+      textUf = "";
+      verifyController = false;
+    });
+    if (_cityController.text.trim().isEmpty &&
+        (selectedItem == null || selectedItem!.isEmpty)) {
       setState(() {
         verifyController = true;
         textController = "*O campo de nome da cidade nao esta preenchido.*";
         textUf = "*O estado nao foi selecionado.*";
       });
-    } else if (_cityController.text.isEmpty) {
+    } else if (_cityController.text.trim().isEmpty) {
       setState(() {
         verifyController = true;
         textController = "*O campo de nome da cidade nao esta preenchido.*";
       });
-    } else if (selectedItem!.isEmpty) {
+    } else if (selectedItem == null || selectedItem!.isEmpty) {
       setState(() {
         verifyController = true;
         textUf = "*O estado nao foi selecionado.*";
@@ -89,9 +96,16 @@ class _SearchCityPageState extends State<SearchCityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Encontre a Localização'),
+        title: const Text(
+          'Encontre a Localização',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.black,
       ),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         padding: const EdgeInsets.all(10),
         decoration: const BoxDecoration(
           gradient: RadialGradient(
@@ -99,55 +113,85 @@ class _SearchCityPageState extends State<SearchCityPage> {
           ),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
               'encontre a área da cidade onde você deseja saber as informações meteorológicas detalhadas neste momento',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 11),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             Row(children: [
-              TextField(
-                  controller: _cityController,
-                  decoration: InputDecoration(
-                    labelText: 'city',
-                    filled: true,
-                    fillColor: const Color(0x40ffffff), // Cor de fundo
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal:
-                            16.0), // Definir altura e espaçamento interno
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          12.0), // Arredondamento dos cantos
-                      borderSide: BorderSide.none, // Remover a borda padrão
+              Expanded(
+                //flex: 2, // Define a proporção de largura
+                child: TextField(
+                    cursorColor: Colors.blue,
+                    controller: _cityController,
+                    style: const TextStyle(
+                      color: Colors.white, // Cor do texto digitado
                     ),
-                  )),
+                    decoration: InputDecoration(
+                      labelText: 'Cidade',
+                      labelStyle: const TextStyle(color: Colors.white),
+                      filled: true,
+                      fillColor: const Color(0x40ffffff), // Cor de fundo
+                      hintText: "Digite algo", // Texto de dica
+                      hintStyle: const TextStyle(
+                          color: Colors.white), // Estilo do texto de dica
+                      prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal:
+                              16.0), // Definir altura e espaçamento interno
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                            12.0), // Arredondamento dos cantos
+                        borderSide: BorderSide.none, // Remover a borda padrão
+                      ),
+                    )),
+              ),
               const SizedBox(
                 width: 10,
               ),
-              DropdownButton<String>(
-                hint: const Icon(
-                  Icons.location_on,
-                  color: Colors.blue,
+              Container(
+                width: 65, // Largura fixa (igual à altura para ser quadrado)
+                height: 65, // Altura fixa
+                decoration: BoxDecoration(
+                  color: const Color(0x40ffffff), // Cor de fundo
+                  borderRadius: BorderRadius.circular(8), // Cantos arredondados
                 ),
-                dropdownColor: const Color(0x40ffffff),
-                borderRadius: BorderRadius.circular(12),
-                style: const TextStyle(color: Colors.white),
-                value: selectedItem,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedItem = newValue;
-                  });
-                },
-                items: _estados.map<DropdownMenuItem<String>>((String uf) {
-                  return DropdownMenuItem<String>(
-                    value: uf,
-                    child: Text(
-                      uf,
-                      style: const TextStyle(color: Colors.white),
+                child: Center(
+                  child: DropdownButton<String>(
+                    underline: const SizedBox(),
+                    hint: const Icon(
+                      Icons.location_on,
+                      color: Colors.blue,
+                      size: 40,
                     ),
-                  );
-                }).toList(),
+                    dropdownColor: const Color(0x40ffffff),
+                    //borderRadius: BorderRadius.circular(12),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                    alignment: Alignment.center,
+                    value: selectedItem,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedItem = newValue;
+                      });
+                    },
+                    items: _estados.map<DropdownMenuItem<String>>((String uf) {
+                      return DropdownMenuItem<String>(
+                        value: uf,
+                        child: Text(
+                          uf,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ),
             ]),
             const SizedBox(
@@ -176,6 +220,9 @@ class _SearchCityPageState extends State<SearchCityPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             if (verifyController)
               Column(
@@ -214,10 +261,10 @@ class _SearchCityPageState extends State<SearchCityPage> {
                         if (snapshot.hasError) {
                           print(snapshot.data);
                           return const Text(
-                            "Erro Ao carregar os dados, no nome da cidade nao use: simbolos e acentos. Deve conter os espaços!",
+                            "Erro ao carregar os dados. Cidade ou estado invalidos, no nome da cidade nao use: simbolos e acentos. Deve conter os espaços!",
                             style: TextStyle(
                               color: Colors.red,
-                              fontSize: 25,
+                              fontSize: 12,
                             ),
                             textAlign: TextAlign.center,
                           );
@@ -225,14 +272,19 @@ class _SearchCityPageState extends State<SearchCityPage> {
                           meteorological = snapshot.data!["results"];
                           return GestureDetector(
                             child: Container(
-                              height: 16,
+                              height: 65,
                               width: double.infinity,
-                              color: const Color(0x40ffffff),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Text(
-                                cityPlusCoutry!,
-                                style: const TextStyle(color: Colors.blue),
+                                borderRadius: BorderRadius.circular(12),
+                                color: const Color(0x40ffffff),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  cityPlusCoutry!,
+                                  style: const TextStyle(
+                                      color: Colors.blue, fontSize: 20),
+                                  //textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                             onTap: () => Navigator.of(context).pushNamed(
