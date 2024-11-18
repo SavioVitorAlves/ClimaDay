@@ -2,6 +2,7 @@ import 'package:climaday/components/img_temp.dart';
 import 'package:climaday/components/meteorogical_weather.dart';
 import 'package:climaday/services/api_clima.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ClimaDayPage extends StatefulWidget {
   const ClimaDayPage({super.key});
@@ -92,9 +93,11 @@ class _ClimaDayPageState extends State<ClimaDayPage> {
                         const SizedBox(
                           height: 5,
                         ),
-                        const Text(
-                          '11, November de 2024',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        Text(
+                          DateFormat("dd, MMMM 'de' yyyy")
+                              .format(DateTime.now()),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
                         ),
                         const SizedBox(
                           height: 15,

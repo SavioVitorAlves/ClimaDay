@@ -20,7 +20,8 @@ class CardTempWeek extends StatelessWidget {
       }
     }
 
-    return Expanded(
+    return Container(
+      height: 565,
       child: ListView.builder(
           itemCount: 7,
           itemBuilder: (ctx, index) {

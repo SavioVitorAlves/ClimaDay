@@ -1,7 +1,8 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 
 class ApiRoute {
-  static const String _apiKey = "6417ae14";
+  final String _apiKey = dotenv.env['API_KEY'] ?? 'URL não definida';
 
   // Função para obter a localização
   Future<Position> _getLocation() async {
@@ -46,10 +47,11 @@ class ApiRoute {
     }
   }
 
-  static const TEMP_DAY = "https://api.hgbrasil.com/weather?key=6417ae14";
+  static late final TEMP_DAY =
+      "https://api.hgbrasil.com/weather?key=${dotenv.env['API_KEY']}";
   static const TEMP_IMG =
       "https://assets.hgbrasil.com/weather/icons/conditions/";
-  static const TEMP_CITY =
-      "https://api.hgbrasil.com/weather?key=6417ae14&city_name=";
+  static late final TEMP_CITY =
+      "https://api.hgbrasil.com/weather?key=${dotenv.env['API_KEY']}&city_name=";
   //static const TEMP_DAY_LOCAL = "https://api.hgbrasil.com/weather?key=6417ae14&lat=-23.682&lon=-46.875&user_ip=remote";
 }

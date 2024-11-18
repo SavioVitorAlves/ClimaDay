@@ -1,11 +1,13 @@
 import 'package:climaday/screens/city_search_page.dart';
-import 'package:climaday/screens/clima_day_page.dart';
+
 import 'package:climaday/screens/relatorio_page.dart';
 import 'package:climaday/screens/tabs_page.dart';
 import 'package:climaday/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(const MyApp());
 }
 

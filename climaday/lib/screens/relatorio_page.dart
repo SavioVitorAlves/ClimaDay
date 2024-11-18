@@ -1,6 +1,7 @@
 import 'package:climaday/components/card_temp_week.dart';
 import 'package:climaday/services/api_clima.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RelatorioPage extends StatefulWidget {
   const RelatorioPage({super.key});
@@ -90,17 +91,18 @@ class _RelatorioPageState extends State<RelatorioPage> {
                     child: Center(
                       child: Column(
                         children: [
-                          const Row(
+                          Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Hoje',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 15),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
-                                '11, November de 2024',
-                                style: TextStyle(
+                                DateFormat("dd, MMMM 'de' yyyy")
+                                    .format(DateTime.now()),
+                                style: const TextStyle(
                                     color: Colors.white, fontSize: 12),
                               ),
                             ],
