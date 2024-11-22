@@ -14,7 +14,7 @@ Este repositório contém todo o código-fonte do aplicativo de clima que estou 
 6. [Padrões de Código](#padrões-de-código)
 7. [Dependências](#dependências)
 8. [Deployment](#deployment)
-9. [Manutenção e Atualizações](#manutenção-e-atualizações)
+9. [Manutenção](#manutenção-e-atualizações)
 10. [Contribuição](#contribuição)
 11. [Licença](#licença)
 
@@ -99,26 +99,19 @@ Abaixo estão as principais dependências usadas:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^5.0.0
-  intl: ^0.17.0
-  http: ^0.13.3
-  cloud_firestore: ^5.4.4
-  firebase_auth: ^5.3.1
-  firebase_core: ^3.6.0
-  firebase_messaging: ^15.1.3
-  flutter_local_notifications: ^17.2.4
-  timezone: ^0.9.4
-  permission_handler: ^11.2.0
   cupertino_icons: ^1.0.8
-  fl_chart: ^0.69.0
-  connectivity_plus: ^6.1.0
-  flutter_launcher_icons: ^0.9.2
+  http: ^1.2.2
+  geolocator: ^12.0.0
+  intl: ^0.19.0
+  font_awesome_flutter: ^10.2.1
+  flutter_svg: ^2.0.7
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
 ```
-
 
 
 ## Deployment
@@ -134,13 +127,8 @@ dev_dependencies:
 ## Manutenção e Atualizações
 
 ### Bugs Conhecidos
-- Quando modificar uma pessoa ou deletar tera que sair da pagina de modal e volta para a lista de pessoas do mes que ja estarão com as alterações.
-- Quando uma pesso for marcada com verificada tem um delay na pagina principal.
+- Quando o aplicativo inicia e a localização nao estiver ativada ele nao pede para ativar e retorna erro na busca dos dados.
 
-### Próximas Atualizações
-- Crição de tela de cadastro para suportar mais de um ususario.
-- Adição da função de sexo da pessoa assim podendo criar novos graficos com essas informações.
-- Roda função de notificação local
 
 ## Contribuição
 
