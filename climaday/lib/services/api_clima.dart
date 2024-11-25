@@ -3,6 +3,14 @@ import 'package:climaday/utils/api_route.dart';
 
 import 'package:http/http.dart' as http;
 
+String substituirUnderlinePorEspaco(String entrada) {
+  return entrada.replaceAll('_', ' ');
+}
+
+String normalizarCidade(String cidade) {
+  return cidade.replaceAll(RegExp(r'\s+'), ' ').trim();
+}
+
 class ApiClima {
   Future<Map> loadWeather() async {
     ApiRoute apiRoute = ApiRoute();
@@ -45,8 +53,11 @@ class ApiClima {
 
         // Verifique se a cidade retornada é a padrão
         final results = data['results'];
-        if (results['city'] == "São Paulo, SP" ||
-            results['city'] == "Miami, Florida") {
+        print(substituirUnderlinePorEspaco(city));
+        // Se a cidade retornada não for igual à pesquisada e for uma das cidades padrão, rejeite o resultado
+        if (substituirUnderlinePorEspaco(city) != "São Paulo,SP" &&
+            (results["city"] == "São Paulo, SP" ||
+                results["city"] == "Miami, Florida")) {
           throw Exception("Cidade inválida: retornou dados da cidade padrão");
         }
 
