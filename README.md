@@ -45,13 +45,20 @@ O projeto é feito usando Flutter e pode ser facilmente adaptado para dispositiv
     git clone https://github.com/SavioVitorAlves/ClimaDay.git
     cd climaday
     ```
-
-2. Instale as dependências:
+2. Criar um arquivo dotenv.env na raiz do app:
+    ```bash
+    .env >
+    {
+      //https://hgbrasil.com/status/weather
+      API_KEY=sua_chave_de_acesso_a_api_aqui
+    }
+    ```
+3. Instale as dependências:
     ```bash
     flutter pub get
     ```
 
-3. Execute o projeto em um emulador ou dispositivo:
+4. Execute o projeto em um emulador ou dispositivo:
     ```bash
     flutter run
     ```
